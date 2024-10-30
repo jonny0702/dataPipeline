@@ -31,13 +31,17 @@ def format_data(res):
 
 def streaming_data():
     import json
+#importing kafka
+    from kafka import KafkaProducer
+
     data = gettin_data()
     formated_data = format_data(data)
 
     print(json.dumps(formated_data, indent= 3))
+    # kafka producer
+    producer = KafkaProducer(bootstrap_servers=['localhost:9092'], max_block_ms=5000)
 
-
-
+    producer.send('user_created', json.dumps(data).encode('utf-8'))
 
 #Creating a DAG
 
